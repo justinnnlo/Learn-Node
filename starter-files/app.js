@@ -23,7 +23,8 @@ app.set('view engine', 'pug'); // we use the engine pug, mustache or EJS work gr
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Takes the raw requests and turns them into usable properties on req.body
+// Takes the raw requests and turns them into usable properties on req.body 
+// everytime when people submit data from a from --> will be parsed just so we can use the data in the req object
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
 // populates req.cookies with any cookies that came along with the request
+// set cookies in express -> for login sessions
 app.use(cookieParser());
 
 // Sessions allow us to store data on visitors from request to request
@@ -51,6 +53,7 @@ app.use(passport.session());
 app.use(flash());
 
 // pass variables to our templates + all requests
+// .use so the response has these info every single request
 app.use((req, res, next) => {
   res.locals.h = helpers;
   res.locals.flashes = req.flash();
